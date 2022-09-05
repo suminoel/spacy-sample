@@ -1,0 +1,19 @@
+<% content_for(:html_title) { "ユーザー一覧" } %>
+<div class="main users-index">
+  <div class="container">
+    <%= render partial: 'posts/tab', locals: { tags: @tags} %>
+
+    <h1 class="users-heading">ユーザー一覧</h1>
+    <% @users.each do |user| %>
+      <div class="users-index-item">
+        <div class="user-left">
+          <img src="<%= user.avatar %>">
+        </div>
+        <div class="user-right">
+          <%= link_to(user.user_name, "/users/#{user.id}") %><br>
+          <%= user.email %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

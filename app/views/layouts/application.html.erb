@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%= content_for?(:html_title) ? yield(:html_title) : "Spacy" %></title>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="robots" content="none">
+
+    <%= favicon_link_tag('favicon.ico') %>
+    <link rel="icon" type="image/png" href="<%= asset_path "favicon-96x96.png" %>" sizes="96x96">
+    <link rel="apple-touch-icon-precomposed" href="<%= asset_path "apple-touch-icon.png" %>">
+    <link rel="icon" type="image/png" href="<%= asset_path "android-touch-icon.png" %>" sizes="192x192">
+
+    <%= javascript_include_tag 'application' %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <% if params[:controller] == 'posts' && %w(index new edit).include?(params[:action])  %>
+    <script type="text/javascript">
+        $(function() {
+            // 入力補完候補のユーザーリスト
+            var users = <%= raw reply_user_lists %>;
+
+            // 入力補完を実施する要素にユーザーリストを設定
+            $("#post_content").autocomplete({
+                source: users
+            });
+        });
+    </script>
+    <% end %>
+</head>
+
+<body id="top">
+    <header>
+        <div class="header-logo">
+            <% if current_user %>
+            <%= link_to("Spacy", "/posts/") %>
+            <% else %>
+            <%= link_to("Spacy", "/") %>
+            <% end %>
+        </div>
+        <ul class="header-menus">
+            <% if current_user %>
+            <li>
+                <%= link_to(content_tag(:i, '', class: 'fa fa-heart'), "/users/#{current_user.id}/likes") %>
+            </li>
+            <li>
+                <%= link_to(content_tag(:i, '', class: 'fa fa-star'), "/users/#{current_user.id}/bookmarks") %>
+            </li>
+            <li class="sp-menu-btn">
+                <span>≡</span>
+            </li>
+            <% else %>
+            <li>
+                <%= link_to("新規登録", "/users/sign_up") %>
+            </li>
+            <li>
+                <%= link_to("ログイン", "/users/sign_in") %>
+            </li>
+            <% end %>
+        </ul>
+    </header>
+
+    <% if flash[:notice] %>
+    <div class="flash">
+        <%= flash[:notice] %>
+    </div>
+    <% end %>
+
+    <% if flash[:success] %>
+    <div class="flash">
+        <%= flash[:success] %>
+    </div>
+    <% end %>
+
+    <%= yield %>
+
+    <ul class="sp-header-menus">
+        <% if current_user %>
+        <li>
+            <%= link_to("いいねランキング", "/posts/like_ranking") %>
+        </li>
+        <li>
+            <%= link_to("ブックマークランキング", "/posts/bookmark_ranking") %>
+        </li>
+        <li>
+            <%= link_to("投稿数ランキング", "/posts/post_count_ranking") %>
+        </li>
+        <li>
+            <%= link_to("ユーザー一覧", "/users/index") %>
+        </li>
+        <li>
+            <%= link_to("プロフィール設定", "/users/#{current_user.id}") %>
+        </li>
+        <li>
+            <%= link_to("ログアウト", destroy_user_session_path, method: :delete) %>
+        </li>
+        <% else %>
+        <li>
+            <%= link_to("新規登録", "/users/sign_up") %>
+        </li>
+        <li>
+            <%= link_to("ログイン", "/users/sign_in") %>
+        </li>
+        <% end %>
+    </ul>
+</body>
+
+</html>

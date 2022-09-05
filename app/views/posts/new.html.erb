@@ -1,0 +1,29 @@
+<% content_for(:html_title) { '新規投稿' } %>
+<div class="main posts-new">
+  <div class="container">
+    <h1 class="form-heading">投稿する</h1>
+    <%= render partial: 'tab' %>
+
+    <%= form_for(@post) do |f| %>
+      <div class="form">
+        <div class="form-body">
+          <% @post.errors.full_messages.each do |message| %>
+            <div class="form-error">
+              <%= message %>
+            </div>
+          <% end %>
+          <%= f.text_area :content %>
+          <%= f.select :tag_list, options_for_select(TAGS, :selected => @tag_list), {}, { multiple: true, class: "searchable" } %>
+          <%= f.file_field :images, multiple: true %>
+          <%= f.hidden_field :images_cache %>
+          <%= f.hidden_field :reply_user_id %>
+          <%= f.hidden_field :reply_parent_id %>
+          <%= f.submit "投稿" %>
+        </div>
+      </div>
+    <% end %>
+    <% if @reply_post.present? %>
+      <%= render @reply_post %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+      <div data-link="/posts/<%= post.id %>" class="posts-index-item">
+        <div class="post-left">
+          <img src="<%= post.user.avatar %>">
+        </div>
+        <div class="post-right">
+          <div class="post-user-name">
+            <%= link_to(post.user.user_name, "/users/#{post.user.id}") %>
+          </div>
+          <div class="post-time">
+            <%= post.created_at %>
+          </div>
+          <div class="post-content">
+            <% if post.html_content.present? %>
+              <%= sanitize(simple_format(post.html_content), :tags => %w(p br a b)) %>
+            <% else %>
+              <%= sanitize(simple_format(post.content), :tags => %w(p br a b)) %>
+            <% end %>
+
+            <% if post.og_card.present? %>
+              <%= post.og_card.html_safe %>
+            <% end %>
+
+            <% if post.images? %>
+              <% post.images.each do |img| %>
+                <% if img.content_type.index("image") %>
+                  <div class="post-img">
+                    <%= link_to img.url, target: "_blank" do %>
+                      <%= image_tag img.url%>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <div class="post-file">
+                    <%= link_to img.file.identifier, img.url(query: { 'response-content-disposition' => 'attachment' }), target: "_blank" %>
+                  </div>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+          <% if post.tag_list.present? %>
+            <ul class="post-tag">
+              <% post.tags.each do |tag| %>
+                <li>
+                  <%= link_to tag, tag_path(tag.name) %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+          <div class="post-reply">
+            <%= link_to "/posts/#{post.id}/reply" do %>
+              <span class="fa fa-reply"></span>
+            <% end %>
+          </div>
+          <div id="like-buttons-<%= post.id %>">
+            <%= render partial: 'like', locals: { post: post, like: @like} %>
+          </div>
+          <div id="bookmark-buttons-<%= post.id %>">
+            <%= render partial: 'bookmark', locals: { post: post, bookmark: @bookmark} %>
+          </div>
+          <% if post.user_id == current_user.id %>
+            <div class="post-menus">
+              <%= link_to("編集", "/posts/#{post.id}/edit") %>
+              <%= link_to("削除", "/posts/#{post.id}/destroy", {method: "post"}) %>
+            </div>
+          <% end %>
+          <% if post.user_id == current_user.id && post.likes_count > 0 %>
+            <% @likes_post_ids = Like.where(post_id: post.id) %>
+            <div class="likes-list">
+              <% @likes_post_ids.each_with_index do |like, i| %>
+                <% if i == 0 %>いいね：<% end %><%= User.find(like.user_id).user_name %>さん<% if i != @likes_post_ids.size - 1 %>、<% end %>
+              <% end %>
+            </div>
+          <% end %>
+          <% if post.user_id == current_user.id && post.bookmarks_count > 0 %>
+            <% @bookmarks_post_ids = Like.where(post_id: post.id) %>
+            <div class="bookmarks-list">
+              <% @bookmarks_post_ids.each_with_index do |bookmark, i| %>
+                <% if i == 0 %>ブックマーク：<% end %><%= User.find(bookmark.user_id).user_name %>さん<% if i != @bookmarks_post_ids.size - 1 %>、<% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>

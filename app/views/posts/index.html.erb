@@ -1,0 +1,20 @@
+<% content_for(:html_title) { '投稿一覧' } %>
+<div class="main posts-index">
+  <div class="container">
+    <%= render partial: 'tab' %>
+
+    <div class="post-loop-wrap">
+      <% if @posts.present? %>
+        <%= render @posts %>
+      <% else %>
+        <div class="posts-index-item">
+          <p>
+            投稿が見つかりませんでした。<br>
+            別のキーワードでも検索してみてください。
+          </p>
+        </div>
+      <% end %>
+    </div>
+    <%= paginate @posts %>
+  </div>
+</div>

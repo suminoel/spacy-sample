@@ -1,0 +1,17 @@
+<% content_for(:html_title) { 'いいねランキング' } %>
+<div class="main posts-index like-rank">
+  <div class="container">
+    <%= render partial: 'tab' %>
+
+    <%= form_tag(posts_like_ranking_path, method: :get, enforce_utf8: false, class: "date_select_form") do %>
+      <div class="date_select_inner">
+        <%= select_tag :date_select, options_for_select(@date, :selected => params[:date_select]), { class: "likerank-date-select" } %>
+      </div>
+      <%= submit_tag("表示", name: nil) %>
+    <% end %>
+    <div class="post-loop-wrap">
+      <%= render @posts %>
+    </div>
+    <%= paginate @posts %>
+  </div>
+</div>

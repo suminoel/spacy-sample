@@ -1,0 +1,29 @@
+<% content_for(:html_title) { 'タグ検索' } %>
+<div class="main posts-index">
+  <div class="container">
+    <%= render partial: 'posts/tab', locals: { tags: @tags} %>
+
+    <% if @posts.present? %>
+      <div class="post-loop-wrap">
+        <%= render @posts %>
+      </div>
+      <%= paginate @posts %>
+    <% else %>
+      <div class="post-loop-wrap">
+        <div class="posts-index-item">
+        <% if params[:tag_list] %>
+          <p>
+            投稿が見つかりませんでした。<br>
+            別のタグで検索してみてください。
+          </p>
+        <% else %>
+          <p>
+            選択したタグのついている投稿を検索します。<br>
+            複数タグでの検索も可能です。
+          </p>
+        <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

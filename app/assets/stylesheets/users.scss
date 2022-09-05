@@ -1,0 +1,231 @@
+// Place all the styles related to the Users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+/* 共通レイアウト ================================ */
+.users-index, .user-show, .users-new, .users-edit {
+  .container {
+    @media screen and (max-width: 550px) {
+      margin: 0;
+    }
+  }
+
+  .tab-wrap,
+  .tab-panel {
+    display: none!important;
+  }
+}
+
+/* users/index ================================ */
+.users-heading {
+  font-weight: 300;
+  margin: 60px 0 20px;
+  font-size: 32px;
+  color: #bcc8d4;
+
+  @media screen and (max-width: 550px) {
+    margin-top: 40px;
+    font-size: 24px;
+  }
+}
+
+.users-index-item {
+  padding: 20px 30px;
+  background-color: white;
+  overflow: hidden;
+  box-shadow: 0 2px 6px #c1ced7;
+
+  @media screen and (max-width: 767px) {
+    padding: 16px;
+  }
+
+  @media screen and (max-width: 550px) {
+    padding: 8px;
+  }
+}
+
+.user-name {
+  a {
+    font-weight: 600;
+
+    &:hover {
+      color: #3e71cd;
+    }
+  }
+}
+
+.user-left {
+  float: left;
+  width: 10%;
+
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px #c1ced7;
+    object-fit: cover;
+
+    @media screen and (max-width: 550px) {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  @media screen and (max-width: 550px) {
+    width: 30px;
+  }
+}
+
+.user-right {
+  float: left;
+  width: 90%;
+  padding-left: 25px;
+  text-align: left;
+
+  @media screen and (max-width: 550px) {
+    width: 100%;
+    float: none;
+    padding-left: 46px;
+  }
+}
+
+/* users/show ================================ */
+.user-show {
+  text-align: center;
+}
+
+.user {
+  margin-bottom: 20px;
+
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px #c1ced7;
+    margin: 20px 0 10px;
+    object-fit: cover;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 13px;
+    margin-bottom: 15px;
+  }
+
+  a {
+    color: #8899a6;
+    text-decoration: underline;
+    font-weight: 200;
+  }
+
+  span {
+    color: #afb6bf;
+    font-weight: 200;
+    padding: 0 6px 0 8px;
+  }
+}
+
+.user-tabs {
+  margin-top: 40px;
+  background-color: white;
+  overflow: hidden;
+  box-shadow: 0 2px 6px #c1ced7;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-evenly;
+
+  @media screen and (max-width: 550px) {
+    margin-top: 0;
+  }
+
+  a {
+    display: block;
+    padding: 16px;
+    color: #afb6bf;
+
+    @media screen and (max-width: 350px) {
+      padding: 10px;
+    }
+  }
+
+  li {
+    float: left;
+
+    &.active {
+      border-bottom: 2px solid #3e71cd;
+
+      a {
+        color: #57575f;
+      }
+    }
+  }
+}
+
+/* users/new ================================ */
+.user-new {
+  input[type="checkbox"] {
+    -webkit-appearance: checkbox;
+  }
+
+  .signup, .signin {
+    text-align: center;
+    padding: 24px 0;
+
+    a {
+      text-align: center;
+      padding: 16px 24px;
+      font-size: 16px;
+      display: block;
+      background: #3ecdc6;
+      color: #fff;
+    }
+  }
+
+  .sign-in-btn,
+  .sign-up-btn {
+    background-color: #0db359;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 300;
+    min-width: 120px;
+    border-radius: 2px;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-align: center;
+  }
+}
+
+.users-form {
+  input {
+    margin-bottom: 15px;
+  }
+}
+
+/* users/edit ================================ */
+.user-edit {
+  .delete-user {
+    input[type="submit"] {
+      width: 200px;
+      float: left;
+      background: #b51212;
+    }
+  }
+
+  .page-back {
+    text-align: right;
+    float: right;
+
+    a {
+      font-size: 16px;
+      line-height: 56px;
+    }
+  }
+}

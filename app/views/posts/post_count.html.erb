@@ -1,0 +1,41 @@
+<% content_for(:html_title) { '投稿数ランキング' } %>
+<div class="main posts-index post-count-rank">
+  <div class="container">
+    <%= render partial: 'tab' %>
+
+    <%= form_tag(posts_post_count_ranking_path, method: :get, enforce_utf8: false, class: "date_select_form") do %>
+      <div class="date_select_inner">
+        <%= select_tag :date_select, options_for_select(@date, :selected => params[:date_select]), { class: "likerank-date-select" } %>
+      </div>
+      <%= submit_tag("表示", name: nil) %>
+    <% end %>
+
+    <p class="month-basis">前月投稿比 <%= @month_basis %>%（今月<%= @current_count %>件：先月<%= @prev_count %>件）</p>
+
+    <% @posts.each do |user_id, post_cnt| %>
+      <% user = User.find(user_id) %>
+      <div class="users-index-item">
+        <div class="user-left">
+          <img src="<%= user.avatar %>">
+        </div>
+        <div class="user-right">
+          <%= link_to(user.user_name, "/users/#{user_id}") %><br>
+          投稿数：<%= post_cnt %>件
+        </div>
+      </div>
+    <% end %>
+
+    <% @users.each do |user_id| %>
+      <% user = User.find(user_id) %>
+      <div class="users-index-item">
+        <div class="user-left">
+          <img src="<%= user.avatar %>">
+        </div>
+        <div class="user-right">
+          <%= link_to(user.user_name, "/users/#{user_id}") %><br>
+          投稿数：0件
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

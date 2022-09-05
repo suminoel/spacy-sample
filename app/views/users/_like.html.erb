@@ -1,0 +1,22 @@
+<% if current_user %>
+  <% if post.like_user(current_user.id) %>
+    <%= button_to like_path(like, id: post.id), method: :delete, remote: true do %>
+      <span class="fa fa-heart like-btn-unlike"></span>
+      <span>
+        <%= post.likes_count %>
+      </span>
+    <% end %>
+  <% else %>
+    <%= button_to post_likes_path(post), remote: true do %>
+      <span class="fa fa-heart like-btn"></span>
+      <span>
+        <%= post.likes_count %>
+      </span>
+    <% end %>
+  <% end %>
+<% else %>
+    <span class="fa fa-heart like-btn-unlike"></span>
+    <span>
+      <%= post.likes_count %>
+    </span>
+<% end %>

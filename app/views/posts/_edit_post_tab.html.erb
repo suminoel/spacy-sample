@@ -1,0 +1,59 @@
+    <div class="tab-wrap">
+      <ul class="tab">
+        <li><a class="new-post-tab active">投稿の編集</a></li>
+        <li><a class="search-tag-tab">タグ検索</a></li>
+        <li><a class="search-kwd-tab">キーワード検索</a></li>
+      </ul>
+    </div>
+
+    <div class="tab-wrap-sp">
+      <ul class="tab">
+        <li><a class="active" href="/posts/#top"><i class="fa fa-home"></i></a></li>
+        <li><a class="new-post-tab-sp"><i class="fa fa-pencil"></i></a></li>
+        <li><a class="search-tag-tab-sp"><i class="fa fa-tags"></i></a></li>
+        <li><a class="search-kwd-tab-sp"><i class="fa fa-search"></i></a></li>
+      </ul>
+    </div>
+
+    <div class="tab-panel new-post-panel active">
+      <%= form_for(@post) do |f| %>
+        <div class="form">
+          <div class="form-body">
+            <% @post.errors.full_messages.each do |message| %>
+              <div class="form-error">
+                <%= message %>
+              </div>
+            <% end %>
+            <%= f.text_area :content, placeholder: "情報を投稿してみましょう！" %>
+            <%= f.select :tag_list, options_for_select(TAGS, :selected => @tag_list), {}, { multiple: true, class: "searchable" } %>
+            <%= f.file_field :images, multiple: true %>
+            <%= f.hidden_field :images_cache %>
+            <%= f.hidden_field :reply_user_id %>
+            <%= f.hidden_field :reply_parent_id %>
+            <%= f.submit "更新" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="tab-panel search-tag-panel">
+      <%= form_tag(posts_tags_search_path, method: :get, enforce_utf8: false) do %>
+        <div class="form">
+          <div class="form-body">
+            <%= select_tag :tag_list, options_for_select(@tags, :selected => params[:tag_list]), { multiple: true, class: "searchable" } %>
+            <%= submit_tag("検索", name: nil) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="tab-panel search-kwd-panel">
+      <%= form_tag(posts_path, method: :get, class: :post_search, enforce_utf8: false) do %>
+        <div class="form">
+          <div class="form-body">
+            <%= text_field_tag :q, params[:q], placeholder: "キーワード検索" %>
+            <%= submit_tag("検索", name: nil) %>
+          </div>
+        </div>
+      <% end %>
+    </div>

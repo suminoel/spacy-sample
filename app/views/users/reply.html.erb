@@ -1,0 +1,27 @@
+<% content_for(:html_title) { "#{@user.user_name}さんへのリプライ" } %>
+<div class="main user-show">
+  <div class="container">
+    <%= render partial: 'posts/tab', locals: { tags: @tags} %>
+
+    <div class="user">
+      <img src="<%= @user.avatar %>">
+      <h2><%= @user.user_name %></h2>
+      <p><%= @user.email %></p>
+      <% if @user.id == current_user.id %>
+        <%= link_to("編集", "/users/edit") %>
+      <% end %>
+    </div>
+
+    <ul class="user-tabs">
+      <li><%= link_to("投稿", "/users/#{@user.id}") %></li>
+      <li><%= link_to("いいね!", "/users/#{@user.id}/likes") %></li>
+      <li><%= link_to("ブックマーク", "/users/#{@user.id}/bookmarks") %></li>
+      <li class="active"><%= link_to("リプライ", "/users/#{@user.id}/reply") %></li>
+    </ul>
+
+    <div class="post-loop-wrap">
+      <%= render @posts %>
+    </div>
+    <%= paginate @posts %>
+  </div>
+</div>

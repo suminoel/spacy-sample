@@ -1,0 +1,30 @@
+<% content_for(:html_title) { "#{@user.user_name}さんのブックマーク" } %>
+<div class="main user-show">
+  <div class="container">
+    <div class="user">
+    <%= render partial: 'posts/tab', locals: { tags: @tags} %>
+
+      <img src="<%= @user.avatar %>">
+      <h2><%= @user.user_name %></h2>
+      <p><%= @user.email %></p>
+      <% if @user.id == current_user.id %>
+        <%= link_to("編集", "/users/edit") %>
+      <% end %>
+    </div>
+
+    <ul class="user-tabs">
+      <li><%= link_to("投稿", "/users/#{@user.id}") %></li>
+      <li><%= link_to("いいね!", "/users/#{@user.id}/likes") %></li>
+      <li class="active"><%= link_to("ブックマーク", "/users/#{@user.id}/bookmarks") %></li>
+      <li><%= link_to("リプライ", "/users/#{@user.id}/reply") %></li>
+    </ul>
+
+    <div class="post-loop-wrap">
+      <% @bookmarks.each do |bookmark| %>
+        <% post = Post.find_by(id: bookmark.post_id) %>
+        <%= render partial: 'post', locals: { post: post, bookmark: @bookmark} %>
+      <% end %>
+    </div>
+    <%= paginate @bookmarks %>
+  </div>
+</div>
